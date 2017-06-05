@@ -5,3 +5,7 @@ initial_test
 initial/init/
 
 testMPI/
+
+testOpenMp/out\.txt
+
+*.exe
