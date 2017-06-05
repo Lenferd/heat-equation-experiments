@@ -1,0 +1,51 @@
+*******
+Run time 141.169403076171875
+On 1 threads
+*******
+Run time 83.236842155456543
+On 2 threads
+*******
+Run time 61.057831048965454
+On 3 threads
+*******
+Run time 52.574349880218506
+On 4 threads
+*******
+Run time 48.138659954071045
+On 5 threads
+*******
+Run time 44.128358125686646
+On 6 threads
+*******
+Run time 41.927404880523682
+On 7 threads
+*******
+Run time 40.625224113464355
+On 8 threads
+*******
+Run time 39.173037052154541
+On 9 threads
+*******
+Run time 42.013977050781250
+On 10 threads
+*******
+Run time 43.144473075866699
+On 11 threads
+*******
+Run time 37.923272132873535
+On 12 threads
+*******
+Run time 40.706280946731567
+On 13 threads
+*******
+Run time 39.209583997726440
+On 14 threads
+*******
+Run time 44.166622877120972
+On 15 threads
+*******
+Run time 41.867823839187622
+On 16 threads
+*******
+Run time 41.879679203033447
+On 17 threads
