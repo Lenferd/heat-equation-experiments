@@ -2,3 +2,6 @@
 build/
 .idea/
 initial_test
+initial/init/
+
+testMPI/

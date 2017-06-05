@@ -16,9 +16,17 @@ int main(int argc, char** argv) {
     double time_S, time_E;
     int prevTime, currTime;
 
-    // File variables
-    string functionFile = "../../initial/function.txt";
-    string settingFile = "../../initial/setting.ini";
+    int threads = 0;
+
+    if (argc != 5) {
+        printf("input data error!\n Format: setting.txt function.txt out.txt");
+        exit(0);
+    }
+
+    string settingFile = argv[1];
+    string functionFile = argv[2];
+    string outfilename = argv[3];
+    threads = atoi(argv[4]);
 
     // Read task settings
     Task task;
@@ -44,7 +52,7 @@ int main(int argc, char** argv) {
     SparseMatrix spMat;
     int sparseMatrixSize = 9 * task.nX * task.nY * task.nZ;
 
-    spMatrixInit(spMat, sparseMatrixSize, task.fullVectSize);
+    spMatrixInit(spMat, sparseMatrixSize, task.fullVectSize, threads);
     fillMatrix3d6Expr(spMat, matrixValue, task.nX, task.nY, task.nZ);
 
 

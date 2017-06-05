@@ -25,18 +25,29 @@ int main(int argc, char **argv) {
 
     double *vect;
 
-    string outfilename = "../../../../../result/Sergey-N/MPI_Euler_1.txt";
+    string outfilename;
 
     if (rankP == ROOT) {
 
         printf("Start\n");
+
+        if (argc != 4) {
+            printf("input data error!\n Format: setting.txt function.txt out.txt");
+        }
+
+
+        string settingFile = argv[1];
+        string functionFile = argv[2];
+        outfilename = argv[3];
+
+        //string outfilename = "../../../../../result/Sergey-N/MPI_Euler_1.txt";
         // File variables
 //        string functionFile = "../../initial/function.txt";
-        string functionFile = "../../../../../initial/function2.txt";
+        //string functionFile = "../../../../../initial/function2.txt";
 //        string functionFile = "../../../../../initial_test/function.txt";
 //        string settingFile = "../../initial/setting.ini";
 //        string settingFile = "../../../../../initial/setting.ini";
-        string settingFile = "../../../../../initial/setting2.ini";
+        //string settingFile = "../../../../../initial/setting2.ini";
 //        string settingFile = "../../../../../initial_test/setting.ini";
 
         // Read task settings
@@ -81,10 +92,21 @@ int main(int argc, char **argv) {
 
     int lineSizeP = 2;                      // proc in line
     int rowP = sizeP / 2;
+    if (sizeP % 2 != 0) {
+        printf("%d don't divided by 2", sizeP);
+        exit(0);
+    }
     int proc_nX = full_sizeX;               // already added as default boundaries cell
     int proc_nY = task.nY / lineSizeP + 2;  // there and after +2 as boundaries conditions
+    if (task.nY % lineSizeP != 0) {
+        printf("nY %d don't divided by %d", task.nY, sizeP);
+        exit(0);
+    }
     int proc_nZ = task.nZ / rowP + 2;
-
+    if (task.nY % lineSizeP != 0) {
+        printf("nZ %d don't divided by rowP %d", task.nY, rowP);
+        exit(0);
+    }
     int proc_vect_size = proc_nX * proc_nY * proc_nZ;
 
 

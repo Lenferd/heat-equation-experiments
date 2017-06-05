@@ -16,9 +16,18 @@ int main(int argc, char** argv) {
     double time_S, time_E;
     int prevTime, currTime;
 
-    // File variables
-    string functionFile = "../../initial/function.txt";
-    string settingFile = "../../initial/setting.ini";
+    int threads;
+
+    if (argc != 5) {
+        printf("input data error!\n Format: setting.txt function.txt out.txt");
+        exit(0);
+    }
+
+
+    string settingFile = argv[1];
+    string functionFile = argv[2];
+    string outfilename = argv[3];
+    threads = atoi(argv[4]);
 
     // Read task settings
     Task task;
@@ -54,7 +63,7 @@ int main(int argc, char** argv) {
     SparseMatrix spMatK1;
     int sparseMatrixSize = 9 * task.nX * task.nY * task.nZ;
 
-    spMatrixInit(spMatK1, sparseMatrixSize, task.fullVectSize);
+    spMatrixInit(spMatK1, sparseMatrixSize, task.fullVectSize, threads);
     fillMatrix3d6Expr(spMatK1, matrixValueK1, task.nX, task.nY, task.nZ);
 
     /***
@@ -71,7 +80,7 @@ int main(int argc, char** argv) {
     SparseMatrix spMatK2;
     sparseMatrixSize = 9 * task.nX * task.nY * task.nZ;
 
-    spMatrixInit(spMatK2, sparseMatrixSize, task.fullVectSize);
+    spMatrixInit(spMatK2, sparseMatrixSize, task.fullVectSize, threads);
     fillMatrix3d6Expr(spMatK2, matrixValueK2, task.nX, task.nY, task.nZ);
 
     /***
@@ -88,7 +97,7 @@ int main(int argc, char** argv) {
     SparseMatrix spMatK4;
     sparseMatrixSize = 9 * task.nX * task.nY * task.nZ;
 
-    spMatrixInit(spMatK4, sparseMatrixSize, task.fullVectSize);
+    spMatrixInit(spMatK4, sparseMatrixSize, task.fullVectSize, threads);
     fillMatrix3d6Expr(spMatK4, matrixValueK4, task.nX, task.nY, task.nZ);
 
 
@@ -116,7 +125,7 @@ int main(int argc, char** argv) {
 
 
     // Output
-    FILE *outfile = fopen("../../result/Sergey/Sergey_Runge.txt", "w");
+    FILE *outfile = fopen(outfilename.c_str(), "w");
 
     double outData;
     for (int i = 1; i <= task.nX; ++i) {
