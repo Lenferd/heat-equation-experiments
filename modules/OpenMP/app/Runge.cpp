@@ -122,7 +122,7 @@ int main(int argc, char** argv) {
     }
     time_E = omp_get_wtime();
     printf("Run time %.15lf\n", time_E-time_S);
-
+    printf("On %d threads\n", threads);
 
     // Output
     FILE *outfile = fopen(outfilename.c_str(), "w");

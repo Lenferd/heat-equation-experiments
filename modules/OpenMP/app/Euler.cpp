@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
     }
     time_E = omp_get_wtime();
     printf("Run time %.15lf\n", time_E - time_S);
-    printf("On %d threads", threads);
+    printf("On %d threads\n", threads);
 
     // Output
 //    string outfilename = "../../../../../result/Sergey-N/Openmp_Euler_1.txt";
