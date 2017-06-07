@@ -9,3 +9,7 @@ testMPI/
 testOpenMp/out\.txt
 
 *.exe
+
+cmake-build-debug/
+
+cmake-build-release/
