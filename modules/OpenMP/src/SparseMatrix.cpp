@@ -17,7 +17,7 @@ void multiplicateVector(SparseMatrix &sp, double *&vect, double *&result, int si
 
     omp_set_num_threads(sp.threads);
 
-    #pragma omp parallel for if (ENABLE_PARALLEL)
+    #pragma omp parallel for
     for (int i = 0; i < size; i++){  // iteration FOR RESULT VECTOR!!!
         double local_result = 0;
         for (int j = sp.pointerB[i]; j < sp.pointerB[i+1]; j++) {

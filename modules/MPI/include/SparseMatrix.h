@@ -19,6 +19,8 @@ struct SparseMatrix {
     double *values;
     int *columns;   // какой столбец
     int *pointerB;  // указатель на начало строки
+
+    int threads;
 };
 
 void fillMatrix2Expr(SparseMatrix &sp, int size, double expr1, double expr2);
@@ -27,7 +29,7 @@ void fillMatrix3d6Expr(SparseMatrix &sp, MatrixValue &taskexpr, int sizeX, int s
 void fillMatrix3d6Expr_wo_boundaries(SparseMatrix &sp, MatrixValue &taskexpr, int sizeX, int sizeY, int sizeZ);
 
 void multiplicateVector(SparseMatrix &sp, double *&vect, double *&result, int size);
-void spMatrixInit(SparseMatrix &sp, int size, int rows);
+void spMatrixInit(SparseMatrix &sp, int size, int rows, int threads);
 void printVectors(SparseMatrix &sp);
 
 

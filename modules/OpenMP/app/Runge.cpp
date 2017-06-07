@@ -112,6 +112,7 @@ int main(int argc, char** argv) {
         multiplicateVector(spMatK2, vectK2, vectK3, task.fullVectSize); // Sparse matrix for k3 equal k2
         multiplicateVector(spMatK4, vectK3, vectK4, task.fullVectSize);
 
+        #pragma omp parallel for
         for (int i = 0; i < task.fullVectSize; ++i) {
             vect[currTime][i] =
                     vect[prevTime][i] + task.dt / 6 * (vectK1[i] + 2 * vectK2[i] + 2 * vectK3[i] + vectK4[i]);

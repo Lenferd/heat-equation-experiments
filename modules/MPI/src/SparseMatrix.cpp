@@ -4,17 +4,18 @@
 
 #include "SparseMatrix.h"
 
-void spMatrixInit(SparseMatrix &sp, int size, int rows) {
+void spMatrixInit(SparseMatrix &sp, int size, int rows, int threads) {
     sp._size = size;
     sp._rows = rows;
     sp.values = new double[size];
     sp.columns = new int[size];
     sp.pointerB = new int[rows+1];
+    sp.threads = threads;
 }
 
 void multiplicateVector(SparseMatrix &sp, double *&vect, double *&result, int size) {
 
-    //omp_set_num_threads(4);
+    omp_set_num_threads(sp.threads);
 
     #pragma omp parallel for if (ENABLE_PARALLEL)
     for (int i = 0; i < size; i++) {

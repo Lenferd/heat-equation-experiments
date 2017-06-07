@@ -31,14 +31,17 @@ int main(int argc, char **argv) {
 
         printf("Start\n");
 
-        if (argc != 4) {
-            printf("input data error!\n Format: setting.txt function.txt out.txt");
+        if (argc != 5) {
+            printf("input data error!\n Format: setting.txt function.txt out.txt <threads>");
+            exit(0);
         }
 
 
         string settingFile = argv[1];
         string functionFile = argv[2];
         outfilename = argv[3];
+        threads = atoi(argv[4]);
+
 
         //string outfilename = "../../../../../result/Sergey-N/MPI_Euler_1.txt";
         // File variables
@@ -199,7 +202,7 @@ int main(int argc, char **argv) {
     SparseMatrix spMat;
     int sparseMatrixSize = 9 * proc_nX * proc_nY * proc_nZ;
 
-    spMatrixInit(spMat, sparseMatrixSize, proc_vect_size);
+    spMatrixInit(spMat, sparseMatrixSize, proc_vect_size, threads);
 
     fillMatrix3d6Expr_wo_boundaries(spMat, matrixValue, proc_nX, proc_nY, proc_nZ);
 
