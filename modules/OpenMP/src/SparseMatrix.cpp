@@ -27,6 +27,21 @@ void multiplicateVector(SparseMatrix &sp, double *&vect, double *&result, int si
     }
 }
 
+void multiplicateVectorRunge(SparseMatrix &sp, double *&vect, double *&additional_vect, double *&result, int size) {
+
+    omp_set_num_threads(sp.threads);
+
+    #pragma omp parallel for
+    for (int i = 0; i < size; i++){  // iteration FOR RESULT VECTOR!!!
+        double local_result = 0;
+        for (int j = sp.pointerB[i]; j < sp.pointerB[i+1]; j++) {
+            local_result += sp.values[j] * (additional_vect[sp.columns[j]] + vect[sp.columns[j]]);
+        }
+        result[i] = local_result;
+    }
+}
+
+
 void fillMatrix2Expr(SparseMatrix &sp, int size, double expr1, double expr2) {
     int index = 0;
     int pIndex = 0;

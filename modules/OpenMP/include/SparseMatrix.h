@@ -30,6 +30,7 @@ void fillMatrix3d6Expr(SparseMatrix &sp, MatrixValue &taskexpr, int sizeX, int s
 void fillMatrix3d6Expr_wo_boundaries(SparseMatrix &sp, MatrixValue &taskexpr, int sizeX, int sizeY, int sizeZ);
 
 void multiplicateVector(SparseMatrix &sp, double *&vect, double *&result, int size);
+void multiplicateVectorRunge(SparseMatrix &sp, double *&vect, double *&additional_vect, double *&result, int size);
 void spMatrixInit(SparseMatrix &sp, int size, int rows, int threads);
 void printVectors(SparseMatrix &sp);
 

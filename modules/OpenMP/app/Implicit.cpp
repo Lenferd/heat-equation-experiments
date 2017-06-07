@@ -24,7 +24,7 @@ double normVect(double *&vect1, double *&vect2, int size) {
 
 int main(int argc, char** argv) {
 
-    double eps = 1e-5;
+    double eps = 1e-6;
 
     // Timing variables
     double time_S, time_E;
@@ -61,7 +61,12 @@ int main(int argc, char** argv) {
     double addit_up_value_x = (task.sigma * task.dt) / (task.stepX * task.stepX);
     double addit_up_value_y = (task.sigma * task.dt) / (task.stepY * task.stepY);
     double addit_up_value_z = (task.sigma * task.dt) / (task.stepZ * task.stepZ);
-    double addit_dw_value = (1 - 2 * matrixValue.x1 - 2 * matrixValue.y1 - 2 * matrixValue.z1); // a_ii in jacobi method
+    printf("x %lf\n", addit_up_value_x);
+    printf("y %lf\n", addit_up_value_y);
+    printf("z %lf\n", addit_up_value_z);
+
+    double addit_dw_value = (1 - 2 * addit_up_value_x - 2 * addit_up_value_y - 2 * addit_up_value_z); // a_ii in jacobi method
+    printf("dw %lf\n", addit_dw_value);
 
     double addit_add_value = 1 / addit_dw_value;
 
@@ -86,7 +91,7 @@ int main(int argc, char** argv) {
 
     for (double j = 0; j < task.tFinish; j += task.dt) {
 
-        #pragma omp parallel for
+//        #pragma omp parallel for
         for (int i = 0; i < task.fullVectSize; i++) {
             const_vect[i] = vect[prevTime][i] * addit_add_value ;
         }
@@ -95,7 +100,7 @@ int main(int argc, char** argv) {
         do {
             multiplicateVector(spMat, vect[prevTime], vect[currTime], task.fullVectSize);
 
-            #pragma omp parallel for
+//            #pragma omp parallel for
             for (int i = 0; i < task.fullVectSize; i++) {
                 vect[currTime][i] += const_vect[i];
             }
@@ -115,10 +120,10 @@ int main(int argc, char** argv) {
     // Output
     FILE *outfile = fopen(outfilename.c_str(), "w");
 
-    double outData;
-    for (int i = 1; i <= task.nX; ++i) {
-        fprintf(outfile, "%2.15le\n", getVectorValue(vect[0],i,0,0,task));
-
+//    double outData;
+    for (int i = 0; i < task.fullVectSize; ++i) {
+        if (i % (task.nX + 2) != 0 && i % (task.nX + 2) != task.nX + 1)
+            fprintf(outfile, "%2.15le\n", vect[0][i]);
     }
 }
 
