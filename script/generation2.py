@@ -8,7 +8,7 @@ def function(x, y, z, xmax, ymax, zmax):
 
 
 def main():
-    pathSetting = os.path.join(os.pardir, "initial_for_tests", "setting5.ini")
+    pathSetting = "setting2.ini"
     with open(pathSetting) as file:
         setting = {line.split('=')[0]: float(line.split('=')[1]) for line in file}
 
@@ -30,7 +30,7 @@ def main():
 
     U = np.array([function(x, y, z, xEnd, yEnd, zEnd) for z in Z for y in Y for x in X])
 
-    pathOutput = os.path.join(os.pardir, "initial_for_tests", 'function5.txt')
+    pathOutput =  'function2-'+ str(int(NX))+'.txt'
     np.savetxt(pathOutput, U, fmt='%.15e', delimiter='\n')
 
 
