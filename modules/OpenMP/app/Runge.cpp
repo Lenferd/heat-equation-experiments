@@ -49,6 +49,8 @@ int main(int argc, char** argv) {
     prevTime = 0;
     currTime = 1;
 
+    boundaries_matrix_fix(vect[prevTime], task.nX, task.nY, task.nZ);
+
     /***
      * K1 Vector
      */
@@ -73,14 +75,14 @@ int main(int argc, char** argv) {
     fillMatrix3d6Expr(spMatK1, matrixValueK1, task.nX, task.nY, task.nZ);
 
     /***
-    * K2-3 Vector
+    * K2
     */
     // value for the matrix
     MatrixValue matrixValueK2;
     matrixValueK2.x1 = (task.sigma * task.dt * 0.5) / (task.stepX * task.stepX);
     matrixValueK2.y1 = (task.sigma * task.dt * 0.5) / (task.stepY * task.stepY);
     matrixValueK2.z1 = (task.sigma * task.dt * 0.5) / (task.stepZ * task.stepZ);
-    matrixValueK2.x2Comp = (- 2 * matrixValueK2.x1 - 2 * matrixValueK2.y1 - 2 * matrixValueK2.z1);
+    matrixValueK2.x2Comp = (1 - 2 * matrixValueK2.x1 - 2 * matrixValueK2.y1 - 2 * matrixValueK2.z1);
 
     printf("\nk2\n");
     printf("x1 %lf\t", matrixValueK2.x1);
@@ -93,6 +95,29 @@ int main(int argc, char** argv) {
 
     spMatrixInit(spMatK2, sparseMatrixSize, task.fullVectSize, threads);
     fillMatrix3d6Expr(spMatK2, matrixValueK2, task.nX, task.nY, task.nZ);
+
+
+    /***
+    * K3
+    */
+    // value for the matrix
+    MatrixValue matrixValueK3;
+    matrixValueK3.x1 = (task.sigma * task.dt * 0.5) / (task.stepX * task.stepX);
+    matrixValueK3.y1 = (task.sigma * task.dt * 0.5) / (task.stepY * task.stepY);
+    matrixValueK3.z1 = (task.sigma * task.dt * 0.5) / (task.stepZ * task.stepZ);
+    matrixValueK3.x2Comp = (-2 * matrixValueK3.x1 - 2 * matrixValueK3.y1 - 2 * matrixValueK3.z1);
+
+    printf("\nk3\n");
+    printf("x1 %lf\t", matrixValueK3.x1);
+    printf("y1 %lf\t", matrixValueK3.y1);
+    printf("z1 %lf\t", matrixValueK3.z1);
+    printf("x2C %lf\t", matrixValueK3.x2Comp);
+    // init and fill sparseMatrix
+    SparseMatrix spMatK3;
+    sparseMatrixSize = 9 * task.nX * task.nY * task.nZ;
+
+    spMatrixInit(spMatK3, sparseMatrixSize, task.fullVectSize, threads);
+    fillMatrix3d6Expr(spMatK3, matrixValueK3, task.nX, task.nY, task.nZ);
 
     /***
     * K4 Vector
@@ -122,15 +147,21 @@ int main(int argc, char** argv) {
 
     for (double j = 0; j < task.tFinish; j += task.dt) {
         multiplicateVector(spMatK1, vect[prevTime], vectK1, task.fullVectSize);
-        multiplicateVectorRunge(spMatK2, vectK1, vect[prevTime], vectK2, task.fullVectSize);
-        multiplicateVectorRunge(spMatK2, vectK2, vect[prevTime], vectK3, task.fullVectSize); // Sparse matrix for k3 equal k2
-        multiplicateVectorRunge(spMatK4, vectK3, vect[prevTime], vectK4, task.fullVectSize);
+        multiplicateVector(spMatK2, vectK1, vectK2, task.fullVectSize);
+        multiplicateVectorRunge(spMatK3, vectK2, vectK1, vectK3, task.fullVectSize);
+        multiplicateVectorRunge(spMatK4, vectK3, vectK1, vectK4, task.fullVectSize);
 
         #pragma omp parallel for
         for (int i = 0; i < task.fullVectSize; ++i) {
-            vect[currTime][i] =
-                    vect[prevTime][i] + task.dt / 6 * (vectK1[i] + 2 * vectK2[i] + 2 * vectK3[i] + vectK4[i]);
+//            if (i % (task.nX + 2) != 0 && i % (task.nX + 2) != task.nX + 1) {
+                vect[currTime][i] =
+                        vect[prevTime][i] + task.dt / 6 * (vectK1[i] + 2 * vectK2[i] + 2 * vectK3[i] + vectK4[i]);
+//            } else if (i % (task.nX)){
+//                vect[currTime][i] = vect[prevTime][i];
+//            }
         }
+
+//        boundaries_matrix_fix(vect[currTime], vect[prevTime], task.nX, task.nY, task.nZ);
 
         prevTime = (prevTime + 1) % 2;
         currTime = (currTime + 1) % 2;

@@ -35,9 +35,9 @@ void multiplicateVectorRunge(SparseMatrix &sp, double *&vect, double *&additiona
     for (int i = 0; i < size; i++){  // iteration FOR RESULT VECTOR!!!
         double local_result = 0;
         for (int j = sp.pointerB[i]; j < sp.pointerB[i+1]; j++) {
-            local_result += sp.values[j] * (additional_vect[sp.columns[j]] + vect[sp.columns[j]]);
+            local_result += sp.values[j] * vect[sp.columns[j]];
         }
-        result[i] = local_result;
+        result[i] = local_result + additional_vect[i];
     }
 }
 
@@ -156,7 +156,6 @@ void fillMatrix3d6Expr(SparseMatrix &sp, MatrixValue &taskexpr, int sizeX, int s
     sp.pointerB[pIndex] = index + 1;   //end
 }
 
-
 //void fillMatrix3d6Expr_wo_boundaries(SparseMatrix &sp, MatrixValue &taskexpr, int sizeX, int sizeY, int sizeZ) {
 //    int realSizeX = sizeX + 2;
 //    int realSizeY = realSizeX;
@@ -244,6 +243,32 @@ void printVectors(SparseMatrix &sp) {
         printf("%lf ", sp.values[i]);
     }
     printf("\n");
+
+}
+
+void boundaries_matrix_fix(double *&vect, int sizeX, int sizeY, int sizeZ) {
+    int realSizeX = sizeX + 2;
+    int realSizeY = realSizeX;
+    int realSizeZ = realSizeY * sizeY;
+
+
+    int sectionStart = 0;
+#pragma omp parallel for
+    for (int z = 0; z < sizeZ; ++z) {
+        for (int y = 0; y < sizeY ; ++y) {
+            sectionStart = z * realSizeZ + y * realSizeY;
+
+            for (int x = 0; x < realSizeX; ++x) {
+                if (x == 0 ) {
+                    vect[sectionStart + x] = vect[sectionStart + x + 1];
+                } else if ((x + 1) == realSizeX) {
+                    vect[sectionStart + x] = vect[sectionStart + x - 1];
+                } else {
+                    ;
+                }
+            }
+        }
+    }
 
 }
 
