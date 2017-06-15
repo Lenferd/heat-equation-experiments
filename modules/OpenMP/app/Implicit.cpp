@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
     int threads = 0;
 
     if (argc != 5) {
-        printf("input data error!\n Format: setting.txt function.txt out.txt");
+        printf("Input data error!\nFormat: setting.txt function.txt out.txt <threads>\n");
         exit(0);
     }
 
@@ -65,14 +65,15 @@ int main(int argc, char** argv) {
     printf("y %lf\n", addit_up_value_y);
     printf("z %lf\n", addit_up_value_z);
 
-    double addit_dw_value = (1 - 2 * addit_up_value_x - 2 * addit_up_value_y - 2 * addit_up_value_z); // a_ii in jacobi method
+    double addit_dw_value = (1 + 2 * addit_up_value_x + 2 * addit_up_value_y + 2 * addit_up_value_z); // a_ii in jacobi method
     printf("dw %lf\n", addit_dw_value);
 
     double addit_add_value = 1 / addit_dw_value;
 
-    matrixValue.x1 = -1 * addit_up_value_x / addit_dw_value;
-    matrixValue.y1 = -1 * addit_up_value_y / addit_dw_value;
-    matrixValue.z1 = -1 * addit_up_value_z / addit_dw_value;
+    matrixValue.x1 = addit_up_value_x / addit_dw_value; // this value must be with minus, but we already apply it to
+                                                        // addit_up_values
+    matrixValue.y1 = addit_up_value_y / addit_dw_value;
+    matrixValue.z1 = addit_up_value_z / addit_dw_value;
     matrixValue.x2Comp = 0;
 
     // init and fill sparseMatrix
