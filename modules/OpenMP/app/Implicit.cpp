@@ -55,6 +55,8 @@ int main(int argc, char** argv) {
     prevTime = 0;
     currTime = 1;
 
+    boundaries_matrix_fix(vect[prevTime], task.nX, task.nY, task.nZ);
+
     // value for the matrix
     MatrixValue matrixValue;
 
