@@ -31,27 +31,33 @@ int initTaskUsingFile(Task &task, string settingFile) {
 //    BC=2
 
     // File reading
-    fscanf(inSettingfile, "XSTART=%lf\n", &task.xStart);    // start coordinate
-    fscanf(inSettingfile, "XEND=%lf\n", &task.xEnd);        // end coordinate
+    int scaned_values = 0;
+    scaned_values += fscanf(inSettingfile, "XSTART=%lf\n", &task.xStart);    // start coordinate
+    scaned_values += fscanf(inSettingfile, "XEND=%lf\n", &task.xEnd);        // end coordinate
 
-    fscanf(inSettingfile, "YSTART=%lf\n", &task.yStart);    // start coordinate
-    fscanf(inSettingfile, "YEND=%lf\n", &task.yEnd);        // end coordinate
+    scaned_values += fscanf(inSettingfile, "YSTART=%lf\n", &task.yStart);    // start coordinate
+    scaned_values += fscanf(inSettingfile, "YEND=%lf\n", &task.yEnd);        // end coordinate
 
-    fscanf(inSettingfile, "ZSTART=%lf\n", &task.zStart);    // start coordinate
-    fscanf(inSettingfile, "ZEND=%lf\n", &task.zEnd);        // end coordinate
+    scaned_values += fscanf(inSettingfile, "ZSTART=%lf\n", &task.zStart);    // start coordinate
+    scaned_values += fscanf(inSettingfile, "ZEND=%lf\n", &task.zEnd);        // end coordinate
 
-    fscanf(inSettingfile, "SIGMA=%lf\n", &task.sigma);      // coef of heat conduction
+    scaned_values += fscanf(inSettingfile, "SIGMA=%lf\n", &task.sigma);      // coef of heat conduction
 
-    fscanf(inSettingfile, "NX=%d\n", &task.nX);             // count of initial elements
-    fscanf(inSettingfile, "NY=%d\n", &task.nY);             //
-    fscanf(inSettingfile, "NZ=%d\n", &task.nZ);             //
+    scaned_values += fscanf(inSettingfile, "NX=%d\n", &task.nX);             // count of initial elements
+    scaned_values += fscanf(inSettingfile, "NY=%d\n", &task.nY);             //
+    scaned_values += fscanf(inSettingfile, "NZ=%d\n", &task.nZ);             //
 
-    fscanf(inSettingfile, "TSTART=%lf\n", &task.tStart);    // start time
-    fscanf(inSettingfile, "TFINISH=%lf\n", &task.tFinish);   // finish time
-    fscanf(inSettingfile, "dt=%lf\n", &task.dt);            // delta of time difference
-    fscanf(inSettingfile, "BC=%d\n", &task.bc);         // Not using right now
+    scaned_values += fscanf(inSettingfile, "TSTART=%lf\n", &task.tStart);    // start time
+    scaned_values += fscanf(inSettingfile, "TFINISH=%lf\n", &task.tFinish);   // finish time
+    scaned_values += fscanf(inSettingfile, "dt=%lf\n", &task.dt);            // delta of time difference
+    scaned_values += fscanf(inSettingfile, "BC=%d\n", &task.bc);         // Not using right now
 
     fclose(inSettingfile);
+    if (scaned_values != 14) {
+        printf("values scanned %d, must be 14\n", scaned_values);
+        printf("File data reading error\n");
+        exit(-2);
+    }
     return 0;
 }
 
@@ -70,16 +76,22 @@ int initMemoryReadData(double **& vect, string file, Task &task) {
     vect[0] = new double[task.fullVectSize];
     vect[1] = new double[task.fullVectSize];
 
+    int scan_value = 0;
     /// Read file
     for (int k = 0; k < task.nZ; k++) {
         for (int j = 0; j < task.nY; ++j) {
             for (int i = 1; i < task.nX + 1; ++i) {
-                fscanf(inFunctionfile, "%lf\n", &vect[0][i + (task.nX + 2) * j + (task.nX+2) * task.nY * k]);
+                scan_value += fscanf(inFunctionfile, "%lf\n",
+                                     &vect[0][i + (task.nX + 2) * j + (task.nX + 2) * task.nY * k]);
             }
         }
     }
 
     fclose(inFunctionfile);
+    if (scan_value != task.nX * task.nY * task.nZ) {
+        printf("Data reading error\n");
+        exit(-3);
+    }
     return 0;
 }
 
@@ -93,15 +105,22 @@ int initMemoryReadDataMPI(double *& vect, string file, Task &task) {
         vect[l] = 0;
     }
 
+    int was_scannned = 0;
     /// Read file
     for (int k = 0; k < task.nZ; k++) {
         for (int j = 0; j < task.nY; ++j) {
             for (int i = 1; i < task.nX + 1; ++i) {
-                fscanf(inFunctionfile, "%lf\n", &vect[i + (task.nX + 2) * j + (task.nX+2) * task.nY * k]);
+                was_scannned += fscanf(inFunctionfile, "%lf\n", &vect[i + (task.nX + 2) * j + (task.nX+2) * task.nY * k]);
             }
         }
     }
 
     fclose(inFunctionfile);
+
+    if (was_scannned != task.nX * task.nY * task.nZ) {
+        printf("Data reading error\n");
+        exit(-3);
+    }
+
     return 0;
 }

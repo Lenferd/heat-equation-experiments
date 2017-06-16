@@ -212,3 +212,29 @@ void printVectors(SparseMatrix &sp) {
 
 }
 
+void boundaries_matrix_fix(double *&vect, int sizeX, int sizeY, int sizeZ) {
+    int realSizeX = sizeX + 2;
+    int realSizeY = realSizeX;
+    int realSizeZ = realSizeY * sizeY;
+
+
+    int sectionStart = 0;
+
+    #pragma omp parallel for
+    for (int z = 0; z < sizeZ; ++z) {
+        for (int y = 0; y < sizeY ; ++y) {
+            sectionStart = z * realSizeZ + y * realSizeY;
+
+            for (int x = 0; x < realSizeX; ++x) {
+                if (x == 0 ) {
+                    vect[sectionStart + x] = vect[sectionStart + x + 1];
+                } else if ((x + 1) == realSizeX) {
+                    vect[sectionStart + x] = vect[sectionStart + x - 1];
+                } else {
+                    ;
+                }
+            }
+        }
+    }
+}
+

@@ -14,6 +14,7 @@ int main(int argc, char **argv) {
     double startTime, endTime;
     const int ROOT = 0;
 
+    int threads = 0;
     int sizeP, rankP;
     MPI_Status status;
 
@@ -59,8 +60,10 @@ int main(int argc, char **argv) {
 
         // Init memory & read function file
         initMemoryReadDataMPI(vect, functionFile, task);
+        boundaries_matrix_fix(vect, task.nX, task.nY, task.nZ);
     }
 
+    MPI_Bcast(&threads, 1, MPI_INT, ROOT, MPI_COMM_WORLD);
     MPI_Bcast(&task.xStart, 1, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
     MPI_Bcast(&task.xEnd, 1, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
     MPI_Bcast(&task.yStart, 1, MPI_DOUBLE, ROOT, MPI_COMM_WORLD);
