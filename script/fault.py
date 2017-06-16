@@ -6,13 +6,12 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
 def main():
-    if len(sys.argv) != 3:
-        print("Не верное количество параметров! Укажите расположение "
-              "двух файлов относительно папки result")
-        print("Например: fault.py Kirill/euler.txt Kirill/implicit.txt")
+    if len(sys.argv) != 4:
+        print("Не верное количество параметров!")
+        print("settings.txt file1.txt file2.txt")
         return
 
-    settingPath = os.path.join(os.path.pardir, "initial", "setting.ini")
+    settingPath = sys.argv[1]
     with open(settingPath, 'r') as file:
         pattern = re.compile('[A-Za-z]+=-?\d+')
         setting = { line.split('=')[0] : float(line.split('=')[1])
@@ -24,8 +23,8 @@ def main():
 
     x = np.linspace(xStart, xFinish, NX)
 
-    pathRes1 = os.path.join(os.pardir, "result", sys.argv[1])
-    pathRes2 = os.path.join(os.pardir, "result", sys.argv[2])
+    pathRes1 = sys.argv[2]
+    pathRes2 = sys.argv[3]
 
     try:
         res1 = np.loadtxt(pathRes1)
