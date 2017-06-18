@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
 
     for (int i = 0; i < task.fullVectSize; ++i) {
         if (i % (task.nX + 2) != 0 && i % (task.nX + 2) != task.nX + 1)
-            fprintf(outfile, "%2.15le\n", vect[0][i]);
+            fprintf(outfile, "%2.15le\n", vect[prevTime][i]);
     }
 
 }

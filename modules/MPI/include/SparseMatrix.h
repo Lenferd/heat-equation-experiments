@@ -9,8 +9,6 @@
 #include "Task.h"
 #include "StructDeclamer.h"
 
-const int ENABLE_PARALLEL = 1;
-
 struct MatrixValue;
 
 struct SparseMatrix {
