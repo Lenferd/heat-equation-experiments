@@ -23,7 +23,6 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
-
     string settingFile = argv[1];
     string functionFile = argv[2];
     string outfilename = argv[3];
@@ -61,11 +60,11 @@ int main(int argc, char** argv) {
     matrixValueK1.z1 = (task.sigma) / (task.stepZ * task.stepZ);
     matrixValueK1.x2Comp = (- 2 * matrixValueK1.x1 - 2 * matrixValueK1.y1 - 2 * matrixValueK1.z1);
 
-    printf("\nk1\n");
-    printf("x1 %lf\t", matrixValueK1.x1);
-    printf("y1 %lf\t", matrixValueK1.y1);
-    printf("z1 %lf\t", matrixValueK1.z1);
-    printf("x2C %lf\t", matrixValueK1.x2Comp);
+//    printf("\nk1\n");
+//    printf("x1 %lf\t", matrixValueK1.x1);
+//    printf("y1 %lf\t", matrixValueK1.y1);
+//    printf("z1 %lf\t", matrixValueK1.z1);
+//    printf("x2C %lf\t", matrixValueK1.x2Comp);
 
     // init and fill sparseMatrix
     SparseMatrix spMatK1;
@@ -84,11 +83,11 @@ int main(int argc, char** argv) {
     matrixValueK2.z1 = (task.sigma * task.dt * 0.5) / (task.stepZ * task.stepZ);
     matrixValueK2.x2Comp = (1 - 2 * matrixValueK2.x1 - 2 * matrixValueK2.y1 - 2 * matrixValueK2.z1);
 
-    printf("\nk2\n");
-    printf("x1 %lf\t", matrixValueK2.x1);
-    printf("y1 %lf\t", matrixValueK2.y1);
-    printf("z1 %lf\t", matrixValueK2.z1);
-    printf("x2C %lf\t", matrixValueK2.x2Comp);
+//    printf("\nk2\n");
+//    printf("x1 %lf\t", matrixValueK2.x1);
+//    printf("y1 %lf\t", matrixValueK2.y1);
+//    printf("z1 %lf\t", matrixValueK2.z1);
+//    printf("x2C %lf\t", matrixValueK2.x2Comp);
     // init and fill sparseMatrix
     SparseMatrix spMatK2;
     sparseMatrixSize = 9 * task.nX * task.nY * task.nZ;
@@ -107,11 +106,11 @@ int main(int argc, char** argv) {
     matrixValueK3.z1 = (task.sigma * task.dt * 0.5) / (task.stepZ * task.stepZ);
     matrixValueK3.x2Comp = (-2 * matrixValueK3.x1 - 2 * matrixValueK3.y1 - 2 * matrixValueK3.z1);
 
-    printf("\nk3\n");
-    printf("x1 %lf\t", matrixValueK3.x1);
-    printf("y1 %lf\t", matrixValueK3.y1);
-    printf("z1 %lf\t", matrixValueK3.z1);
-    printf("x2C %lf\t", matrixValueK3.x2Comp);
+//    printf("\nk3\n");
+//    printf("x1 %lf\t", matrixValueK3.x1);
+//    printf("y1 %lf\t", matrixValueK3.y1);
+//    printf("z1 %lf\t", matrixValueK3.z1);
+//    printf("x2C %lf\t", matrixValueK3.x2Comp);
     // init and fill sparseMatrix
     SparseMatrix spMatK3;
     sparseMatrixSize = 9 * task.nX * task.nY * task.nZ;
@@ -129,11 +128,11 @@ int main(int argc, char** argv) {
     matrixValueK4.z1 = (task.sigma * task.dt) / (task.stepZ * task.stepZ);
     matrixValueK4.x2Comp = (- 2 * matrixValueK4.x1 - 2 * matrixValueK4.y1 - 2 * matrixValueK4.z1);
 
-    printf("\nk4\n");
-    printf("x1 %lf\t", matrixValueK4.x1);
-    printf("y1 %lf\t", matrixValueK4.y1);
-    printf("z1 %lf\t", matrixValueK4.z1);
-    printf("x2C %lf\t", matrixValueK4.x2Comp);
+//    printf("\nk4\n");
+//    printf("x1 %lf\t", matrixValueK4.x1);
+//    printf("y1 %lf\t", matrixValueK4.y1);
+//    printf("z1 %lf\t", matrixValueK4.z1);
+//    printf("x2C %lf\t", matrixValueK4.x2Comp);
 
     // init and fill sparseMatrix
     SparseMatrix spMatK4;

@@ -95,8 +95,8 @@ def main():
     # plt.imshow(us[:, :, 0])
     # plt.show()
 
-    usmin = -3
-    usmax = 4
+    usmin = np.amin(us)
+    usmax = np.amax(us)
 
     cstride = max(NX // 20, 1)
     rstride = max(NY // 20, 1)
@@ -124,7 +124,7 @@ def main():
     cax = fig.add_axes([0.12, 0.05, 0.78, 0.02])
     fig.colorbar(m, cax=cax, orientation='horizontal')
 
-    plt.savefig('plot3D.png', transparent=True)
+    plt.savefig(pathFinish.split('/')[0]+'/'+'plot3D_'+pathFinish.split('/')[1].split('.')[0]+'.png', transparent=True)
     plt.show()
 
 
