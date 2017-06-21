@@ -1,0 +1,12 @@
+Run time 0.113629102706909
+On 16 threads
+Run time 0.142942905426025
+On 16 threads
+Run time 0.221867084503174
+On 16 threads
+Run time 0.493951082229614
+On 16 threads
+Run time 2.543715000152588
+On 16 threads
+Run time 16.114445924758911
+On 16 threads
