@@ -8,11 +8,12 @@ from scipy.interpolate import griddata
 import os
 
 def main():
-    steps = (1/9, 1/17, 1/33, 1/65, 1/129)
+    steps = np.array((1/9, 1/17, 1/33, 1/65, 1/129))
     times = np.array(range(2, 7))
 
     fault = (np.loadtxt("Euler.txt"))
-    fault.shape = (len(steps), len(times))
+    # fault.shape = (len(steps), len(times
+    fault.shape = (5, 6)
 
     fig = plt.figure("FAULT")
 

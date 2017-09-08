@@ -1,0 +1,14 @@
+Run time 0.000246032001087
+On 4 threads
+Run time 0.000275148999208
+On 4 threads
+Run time 0.000665026000206
+On 4 threads
+Run time 0.008097670999632
+On 4 threads
+Run time 0.068325457999890
+On 4 threads
+Run time 0.774605072998384
+On 4 threads
+Run time 7.001072140001270
+On 4 threads
